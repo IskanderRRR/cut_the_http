@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}
+  YaCut — укоротитель ссылок
+{% endblock title %}
+
+{% block content %}
+<header class="pb-5">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+    <div class="container">
+      <div class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link" href="">
+              Главная
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+</header>
+<main>
+  <section class="container my-5 px-4">
+    <h1 class="text-center"><span style="color:red">Ya</span>Cut</h1>
+    <p class="text-center my-4">
+      Создайте короткую ссылку автоматически или предложите свой вариант
+    </p>
+
+    <div class="container">
+      <div class="row my-3">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm">
+          <form method="POST" novalidate>
+            {{ form.csrf_token }}
+            <div>
+              <div>
+                {{ form.original_link(class="form-control form-control-lg py-3 mb-3", placeholder=form.original_link.label.text) }}
+                {% if form.original_link.errors %}
+                  {% for error in form.original_link.errors %}
+                    <p><span style="color:red">Это поле обязательно для заполнения</span></p>
+                  {% endfor %}
+                {% endif %}
+              </div>
+              <div>
+                {{ form.custom_id(class="form-control form-control-lg py-3 mb-3", placeholder=form.custom_id.label.text) }}
+                <p class="text-danger">
+                  {% if form.custom_id.errors %}
+                    {% for error in form.custom_id.errors %}
+                    <p><span style="color:red">Короткая ссылка должна состоять из латинских символов и цифр и не превышать 16 символов</span></p>
+                    {% endfor %}
+                    {% endif %}
+                    
+              </div>
+
+              {{ form.submit(class="btn btn-primary") }}
+            </div>
+          </form>
+          <p class="text-danger">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+              <p><span style="color:red">{{ message }}</span></p>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </div>
+        <div class="col-sm">
+        </div>
+      </div>
+    </div>
+    {% if slug %}
+    <div class="container">
+      <div class="row ">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm">
+          <p class="text-center">
+            <h5>Ваша новая ссылка готова: <b> 
+              <a href="{{ url_for('short_url_view', slug=slug, _external=True) }}"> 
+                {{ url_for('short_url_view', slug=slug, _external=True) }} 
+              </a>
+            </b></h5>
+          </p>
+        </div>
+        <div class="col-sm">
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+  </section>
+</main>
+{% endblock content %}
