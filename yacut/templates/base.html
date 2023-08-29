@@ -10,14 +10,14 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for("static", filename="img/fav/favicon-16x16.png") }}">
     <link rel="stylesheet" href="{{ url_for("static", filename="css/bootstrap.min.css")}}">
     <title>
-      {% block title %}
-      {% endblock title %}
+      {% block title %}Default Title{% endblock %}
     </title>
   </head>
 
   <body>
-    {% block content %}
-    {% endblock content %}
+    <main>
+      {% block content %}{% endblock %}
+    </main>
 
     <footer class="fixed-bottom border-top text-center py-3">
       <p>Укоротитель ссылок YaCut</p>

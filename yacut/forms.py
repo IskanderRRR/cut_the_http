@@ -6,6 +6,7 @@ from wtforms.validators import (
     Length, Regexp, Optional
 )
 
+from .constants import MAX_CUSTOM_ID_LENGTH, CUSTOM_ID_REGEX
 
 class URLMapForm(FlaskForm):
     original_link = StringField(
@@ -21,11 +22,11 @@ class URLMapForm(FlaskForm):
         description='Длина не более 16 символов, латинские буквы и цифры',
         validators=[
             Length(
-                max=16,
+                max=MAX_CUSTOM_ID_LENGTH,
                 message='Длина поля не должна превышать 16 символов.',
             ),
             Regexp(
-                r"^[a-zA-Z0-9]*$",
+                CUSTOM_ID_REGEX,
                 message=(
                     'Идентификатор может состоять только из латинских букв и цифр.'
                 ),
