@@ -4,6 +4,7 @@ from .forms import URLMapForm
 from .models import URLMap
 from .utils import get_short
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index_view():
     form = URLMapForm()
@@ -23,6 +24,7 @@ def index_view():
             return render_template('index.html', form=form, slug=urlmap.short)
     
     return render_template('index.html', form=form)
+
 
 @app.route('/<string:slug>')
 def short_url_view(slug):

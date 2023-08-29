@@ -2,6 +2,7 @@ import random
 import string
 from .models import URLMap
 
+
 def get_short(short):
     symbols = string.ascii_letters + string.digits
     while True:

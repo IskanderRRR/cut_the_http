@@ -1,8 +1,6 @@
 from datetime import datetime
 from flask import url_for
 
-import random
-import string
 
 from . import db
 

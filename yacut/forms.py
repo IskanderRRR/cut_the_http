@@ -8,6 +8,7 @@ from wtforms.validators import (
 
 from .constants import MAX_CUSTOM_ID_LENGTH, CUSTOM_ID_REGEX
 
+
 class URLMapForm(FlaskForm):
     original_link = StringField(
         'Адрес URL',

@@ -6,6 +6,7 @@ from .models import URLMap
 from .utils import get_short
 from .error_handlers import APIErrors
 
+
 @app.route('/api/id/<string:short_id>/', methods=['GET'])
 def get_original_url(short_id):
     url = URLMap.query.filter_by(short=short_id).first()
