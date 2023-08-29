@@ -14,6 +14,7 @@ def get_original_url(short_id):
         raise APIErrors('Указанный id не найден', HTTPStatus.NOT_FOUND)
     return jsonify({'url': url.original}), HTTPStatus.OK
 
+
 @app.route('/api/id/', methods=['POST'])
 def add_urlmap():
     data = request.get_json()
