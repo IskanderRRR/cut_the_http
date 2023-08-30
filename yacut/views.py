@@ -12,7 +12,7 @@ def index_view():
 
     if not form.validate_on_submit():
         return render_template('index.html', form=form)
-    
+
     custom_id = form.custom_id.data
     existing_urlmap = URLMap.query.filter_by(short=custom_id).first()
 
@@ -25,7 +25,7 @@ def index_view():
         )
         db.session.add(urlmap)
         db.session.commit()
-    
+
     return render_template('index.html', form=form, slug=urlmap.short)
 
 
