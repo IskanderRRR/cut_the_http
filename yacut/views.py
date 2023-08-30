@@ -1,4 +1,5 @@
-from flask import redirect, render_template, flash
+from flask import flash, redirect, render_template
+
 from . import app, db
 from .forms import URLMapForm
 from .models import URLMap

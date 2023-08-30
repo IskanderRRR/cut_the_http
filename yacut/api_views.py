@@ -1,10 +1,13 @@
 import re
 from http import HTTPStatus
+
 from flask import jsonify, request
+
 from . import app, db
+from .constants import CUSTOM_ID_REGEX, MAX_CUSTOM_ID_LENGTH
+from .error_handlers import APIErrors
 from .models import URLMap
 from .utils import get_short
-from .error_handlers import APIErrors
 
 
 @app.route('/api/id/<string:short_id>/', methods=['GET'])
@@ -26,7 +29,7 @@ def add_urlmap():
 
     if 'custom_id' in data and data['custom_id'] is not None:
         custom_id = data['custom_id']
-        if not re.match('^[a-zA-Z0-9]*$', custom_id) or len(custom_id) > 16:
+        if not re.match(CUSTOM_ID_REGEX, custom_id) or len(custom_id) > MAX_CUSTOM_ID_LENGTH:
             raise APIErrors('Указано недопустимое имя для короткой ссылки', HTTPStatus.BAD_REQUEST)
 
         if URLMap.query.filter_by(short=custom_id).first() is not None:
