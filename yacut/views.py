@@ -9,24 +9,25 @@ from .utils import get_short
 @app.route('/', methods=['GET', 'POST'])
 def index_view():
     form = URLMapForm()
+    urlmap = None  # Инициализируем переменную заранее
 
-    if not form.validate_on_submit():
-        return render_template('index.html', form=form)
+    if form.validate_on_submit():
+        custom_id = form.custom_id.data
+        existing_urlmap = URLMap.query.filter_by(short=custom_id).first()
 
-    custom_id = form.custom_id.data
-    existing_urlmap = URLMap.query.filter_by(short=custom_id).first()
+        if existing_urlmap:
+            flash(f'Имя {custom_id} уже занято!')
+        else:
+            urlmap = URLMap(
+                original=form.original_link.data,
+                short=get_short(custom_id)
+            )
+            db.session.add(urlmap)
+            db.session.commit()
 
-    if existing_urlmap:
-        flash(f'Имя {custom_id} уже занято!')
-    else:
-        urlmap = URLMap(
-            original=form.original_link.data,
-            short=get_short(custom_id)
-        )
-        db.session.add(urlmap)
-        db.session.commit()
-
-    return render_template('index.html', form=form, slug=urlmap.short)
+    return render_template('index.html',
+                           form=form,
+                           slug=urlmap.short if urlmap else None)
 
 
 @app.route('/<string:slug>')
